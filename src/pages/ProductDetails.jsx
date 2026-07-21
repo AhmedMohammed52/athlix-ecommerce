@@ -1,6 +1,5 @@
+import ProductDetailsSection from "../components/ProductDetails/ProductDetails";
 
 export default function ProductDetails() {
-  return (
-    <div>ProductsDetails</div>
-  )
+  return <ProductDetailsSection />;
 }

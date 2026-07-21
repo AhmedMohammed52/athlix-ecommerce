@@ -4,7 +4,7 @@ import { FaRegHeart } from "react-icons/fa6";
 export default function EmptyWishlistContent() {
   return (
     <div className="mt-16 bg-muted/40 border border-border border-dashed rounded-3xl px-6 py-20 text-center flex flex-col items-center justify-center">
-      <div className="size-14 bg-background rounded-full items-center justify-center">
+      <div className="size-14 bg-background rounded-full flex items-center justify-center">
         <FaRegHeart className="size-6 text-muted-foreground" />
       </div>
 
@@ -18,7 +18,7 @@ export default function EmptyWishlistContent() {
 
       <Link
         className=" btn-shine mt-6 inline-flex items-center h-11 px-6 rounded-full bg-foreground text-sm font-semibold text-background"
-        to="/products"
+        to="/shop"
       >
         Browse Products
       </Link>

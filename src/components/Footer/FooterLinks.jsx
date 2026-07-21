@@ -19,7 +19,7 @@ export default function FooterLinks() {
               <li key={link}>
                 <Link
                   className="text-sm text-background/80 transition hover:text-background"
-                  to="/products"
+                  to="/shop"
                 >
                   {link}
                 </Link>

@@ -21,7 +21,7 @@ const bottomNavData = [
   },
   {
     name: "Bag",
-    path: "/cart",
+    path: "/bag",
     icon: <LuShoppingBag className="size-5" />,
   },
   {

@@ -17,7 +17,7 @@ export default function PromoBannerContent() {
       </p>
 
       <Link
-        to="/products"
+        to="/sale"
         className="mt-8 inline-flex h-12 px-6 items-center gap-2 rounded-full bg-royal-foreground text-sm font-semibold text-royal transition hover:opacity-90"
       >
         Shop the sale

@@ -29,7 +29,7 @@ export default function NavbarActions({isSearchOpen, setIsSearchOpen}) {
         </Link>
 
         <Link
-          to="/cart"
+          to="/bag"
           className="relative inline-flex size-11 items-center justify-center rounded-full text-foreground transition hover:bg-muted"
         >
           <LuShoppingBag className="size-5" />

@@ -5,7 +5,7 @@ import { GoArrowRight } from "react-icons/go";
 export default function EmptyWishlistContent() {
   return (
     <>
-      <div className="size-16 bg-muted rounded-full items-center justify-center">
+      <div className="size-16 bg-muted rounded-full flex items-center justify-center">
         <LuShieldCheck className="size-7 text-muted-foreground" />
       </div>
 
@@ -19,8 +19,8 @@ export default function EmptyWishlistContent() {
       </p>
 
       <Link
-        className=" btn-shine mt-6 inline-flex items-center h-11 px-6 rounded-full bg-foreground text-sm font-semibold text-background"
-        to="/products"
+        className=" btn-shine mt-8 inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-6 text-sm font-semibold text-background"
+        to="/shop"
       >
         Start shopping
         <GoArrowRight className="size-4" />
