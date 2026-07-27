@@ -26,7 +26,7 @@ const bottomNavData = [
   },
   {
     name: "Me",
-    path: "/profile",
+    path: "/account",
     icon: <FiUser className="size-5" />,
   },
 ];

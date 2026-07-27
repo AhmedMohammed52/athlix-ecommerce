@@ -22,7 +22,7 @@ export default function NavbarActions({isSearchOpen, setIsSearchOpen}) {
         </Link>
 
         <Link
-          to="/profile"
+          to="/account"
           className="relative hidden size-11 items-center justify-center rounded-full text-foreground transition hover:bg-muted sm:inline-flex"
         >
           <FiUser className="size-5" />

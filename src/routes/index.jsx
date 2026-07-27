@@ -9,7 +9,6 @@ import ProductDetails from "../pages/ProductDetails";
 import Bag from "../pages/Bag";
 import Wishlist from "../pages/Wishlist";
 import Checkout from "../pages/Checkout";
-import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 import ErrorPage from "../pages/ErrorPage";
 
@@ -18,6 +17,7 @@ import Register from "../pages/Register";
 import NewArrivals from "../pages/NewArrivals";
 import Sale from "../pages/Sale";
 import Jornal from "../pages/Jornal";
+import Account from "../pages/Account";
 
 // import ProtectedRoute from "../routes/ProtectedRoute";
 
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       { path: "bag", element: <Bag /> },
       { path: "wishlist", element: <Wishlist /> },
       { path: "checkout", element: <Checkout /> },
-      { path: "profile", element: <Profile /> },
+      { path: "account", element: <Account /> },
       { path: "/shop/:id", element: <ProductDetails /> },
       { path: "/new", element: <NewArrivals /> },
       { path: "/sale", element: <Sale /> },
