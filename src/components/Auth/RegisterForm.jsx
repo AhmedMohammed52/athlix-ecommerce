@@ -1,25 +1,24 @@
-import { FiMail, FiUser } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import PasswordInput from "../ui/PasswordInput";
+import EmailInput from "../ui/EmailInput";
+import PrimaryButton from "../ui/PrimaryButton";
+import FormLabel from "../ui/FormLabel";
+import TextField from "../ui/TextField";
 
-export default function RegisterForm({ onSubmit, register, errors }) {
+export default function RegisterForm({
+  onSubmit,
+  register,
+  errors,
+  isLoading,
+}) {
   return (
     <form className="space-y-4" onSubmit={onSubmit} noValidate>
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label
-            htmlFor="fname"
-            className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-1.5 text-xs"
-          >
-            First Name
-          </label>
+          <FormLabel id={"fname"} label={"First Name"} />
 
-          <input
-            type="text"
-            {...register("firstName")}
-            className="flex w-full border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm h-12 rounded-xl"
-            id="fname"
-          />
+          <TextField register={register} id={"fname"} name={"firstName"} />
 
           {errors.firstName && (
             <p className="mt-1 text-xs text-red-500">
@@ -29,19 +28,9 @@ export default function RegisterForm({ onSubmit, register, errors }) {
         </div>
 
         <div>
-          <label
-            htmlFor="lname"
-            className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-1.5 text-xs"
-          >
-            Last Name
-          </label>
+          <FormLabel id={"lname"} label={"Last Name"} />
 
-          <input
-            {...register("lastName")}
-            type="text"
-            className="flex w-full border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm h-12 rounded-xl"
-            id="lname"
-          />
+          <TextField register={register} id={"lname"} name={"lastName"} />
 
           {errors.lastName && (
             <p className="mt-1 text-xs text-red-500">
@@ -51,30 +40,7 @@ export default function RegisterForm({ onSubmit, register, errors }) {
         </div>
       </div>
 
-      <div>
-        <label
-          htmlFor="email"
-          className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-1.5 text-xs"
-        >
-          Email
-        </label>
-
-        <div className="relative">
-          <FiMail className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-
-          <input
-            {...register("email")}
-            type="email"
-            id="email"
-            className="flex w-full border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm h-12 rounded-xl pl-11"
-            placeholder="you@example.com"
-          />
-        </div>
-
-        {errors.email && (
-          <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>
-        )}
-      </div>
+      <EmailInput register={register} errors={errors} />
 
       <PasswordInput
         id="password"
@@ -119,12 +85,11 @@ export default function RegisterForm({ onSubmit, register, errors }) {
         <p className="text-xs text-red-500 mt-1">{errors.terms.message}</p>
       )}
 
-      <button
-        type="submit"
-        className="mt-2 btn-shine inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground text-sm font-semibold text-background transition hover:opacity-90"
-      >
-        <FiUser className=" size-4" /> Create account
-      </button>
+      <PrimaryButton
+        text={isLoading ? "Creating account..." : "Create account"}
+        icon={FiUser}
+        disabled={isLoading}
+      />
     </form>
   );
 }

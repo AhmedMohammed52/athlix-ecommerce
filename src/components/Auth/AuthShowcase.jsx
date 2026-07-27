@@ -142,7 +142,7 @@ bg-[repeating-linear-gradient(-15deg,transparent_0px,transparent_100px,rgba(255,
         </div>
       </motion.div>
 
-      <div className="relative z-10 flex h-full flex-col justify-between p-10 xl:p-14">
+      <div className="relative z-10 flex h-full flex-col justify-between p-10 xl:p-14 animate-fade-in">
         <Link
           className="inline-flex items-center gap-2 font-display text-xl font-bold tracking-tight text-background"
           to="/"

@@ -18,8 +18,10 @@ import NewArrivals from "../pages/NewArrivals";
 import Sale from "../pages/Sale";
 import Jornal from "../pages/Jornal";
 import Account from "../pages/Account";
+import ForgetPassword from "../pages/ForgetPassword";
 
-// import ProtectedRoute from "../routes/ProtectedRoute";
+import ProtectedRoute from "../routes/ProtectedRoute";
+import GuestRoute from "./GuestRoute";
 
 const router = createBrowserRouter([
   {
@@ -29,37 +31,31 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "shop", element: <Shop /> },
-      { path: "products/:id", element: <ProductDetails /> },
-      { path: "bag", element: <Bag /> },
-      { path: "wishlist", element: <Wishlist /> },
-      { path: "checkout", element: <Checkout /> },
-      { path: "account", element: <Account /> },
-      { path: "/shop/:id", element: <ProductDetails /> },
-      { path: "/new", element: <NewArrivals /> },
-      { path: "/sale", element: <Sale /> },
-      { path: "/jornal", element: <Jornal /> },
-
-      // {
-      //   element: <ProtectedRoute />,
-      //   children: [
-      //     { path: "cart", element: <Cart /> },
-      //     { path: "wishlist", element: <Wishlist /> },
-      //     { path: "checkout", element: <Checkout /> },
-      //     { path: "profile", element: <Profile /> },
-      //   ],
-      // },
+      { path: "shop/:id", element: <ProductDetails /> },
+      { path: "new", element: <NewArrivals /> },
+      { path: "sale", element: <Sale /> },
+      { path: "jornal", element: <Jornal /> },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          { path: "bag", element: <Bag /> },
+          { path: "wishlist", element: <Wishlist /> },
+          { path: "checkout", element: <Checkout /> },
+          { path: "account", element: <Account /> },
+        ],
+      },
     ],
   },
   {
     element: <AuthLayout />,
     children: [
       {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
+        element: <GuestRoute />,
+        children: [
+          { path: "login", element: <Login /> },
+          { path: "register", element: <Register /> },
+          { path: "forgetPassword", element: <ForgetPassword /> },
+        ],
       },
     ],
   },

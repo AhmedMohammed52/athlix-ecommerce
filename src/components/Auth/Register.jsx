@@ -10,17 +10,45 @@ import { registerSchema } from "../../validation/registerSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { signUp } from "../../services/auth";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useLocation, useNavigate } from "react-router-dom";
+
 export default function Register() {
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/account";
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema),
   });
 
-  function onSubmit(data) {
-    console.log(data);
+  async function onSubmit(formData) {
+    try {
+      setIsLoading(true);
+
+      await signUp(formData);
+
+      reset();
+
+      toast.success("Account created successfully!");
+
+      setTimeout(() => {
+        navigate(from, { replace: true });
+      }, 800);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -35,6 +63,7 @@ export default function Register() {
         onSubmit={handleSubmit(onSubmit)}
         register={register}
         errors={errors}
+        isLoading={isLoading}
       />
 
       <AuthDivider />
