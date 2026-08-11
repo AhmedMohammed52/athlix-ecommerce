@@ -4,9 +4,30 @@ import ShopHeader from "./ShopHeader";
 import MobileAside from "./MobileAside";
 import MenuOverlay from "../navbar/MenuOverlay";
 import useShop from "../../hooks/useShop";
-import trendingProducts from "../../data/trendingProductsData";
+
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "../../services/apiProducts";
+import { getBrands } from "../../services/apiBrands"
 
 export default function Shop() {
+  const {
+    data: products = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+  });
+
+  const {
+    data: brands = [],
+    isLoading: isBrandsLoading,
+    error: brandsError,
+  } = useQuery({
+    queryKey: ["brands"],
+    queryFn: getBrands,
+  });
+
   const {
     selectedCategories,
     selectedBrands,
@@ -24,14 +45,20 @@ export default function Shop() {
     setSortBy,
     setCurrentPage,
     setIsMobileAsideOpen,
-  } = useShop();
+  } = useShop(products);
+
+  if (isLoading || isBrandsLoading) return <p>Loading...</p>;
+
+  if (error) return <p>{error.message}</p>;
+
+  if (brandsError) return <p>{brandsError.message}</p>;
 
   return (
     <>
       <section className=" border-b border-border bg-muted/50">
         <ShopHeader
           handleCategoryClick={handleCategoryClick}
-          productsCount={trendingProducts.length}
+          productsCount={products?.length || 0}
         />
       </section>
 
@@ -57,6 +84,7 @@ export default function Shop() {
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}
           currentPage={currentPage}
+          brands={brands}
         />
       </div>
 

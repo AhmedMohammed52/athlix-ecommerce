@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { FaStar } from "react-icons/fa";
 import { GoHeart } from "react-icons/go";
@@ -6,6 +6,13 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { LuShoppingBag } from "react-icons/lu";
 
 export default function ProductCard({ product }) {
+  const primaryImage =
+    product.product_images?.find((img) => img.is_primary)?.image_url ||
+    product.product_images?.[0]?.image_url ||
+    "https://placehold.co/600x600?text=No+Image";
+
+  const navigate = useNavigate();
+
   return (
     <div className="group relative">
       <Link
@@ -14,24 +21,22 @@ export default function ProductCard({ product }) {
       >
         <div className="relative aspect-square overflow-hidden ">
           <img
-            src={product.image}
+            src={primaryImage}
             alt={product.name}
             loading="lazy"
             className=" size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
 
           <div className=" absolute left-3 top-3 flex flex-col gap-1.5">
-            {product.badge && (
-              <span
-                className={`inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-semibold uppercase tracking-wider ${product.badge.bgColor} ${product.badge.color}`}
-              >
-                {product.badge.text}
+            {product.is_featured && (
+              <span className="inline-flex h-6 items-center rounded-full bg-primary px-2.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+                Featured
               </span>
             )}
 
-            {product.discount && (
+            {product.discount_percent && (
               <span className="inline-flex h-6 items-center rounded-full px-2.5 text-[10px] font-bold text-foreground bg-background/95">
-                {product.discount}%
+                {product.discount_percent}%
               </span>
             )}
           </div>
@@ -49,13 +54,16 @@ export default function ProductCard({ product }) {
               Add to bag
             </button>
 
-            <Link
-              to={`/shop/${product.id}`}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/shop/${product.id}`);
+              }}
               className="size-11 bg-background/95 rounded-full flex items-center justify-center text-foreground shadow-elegant"
-              aria-label="Quick view"
             >
               <MdOutlineRemoveRedEye className="size-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </Link>
@@ -64,11 +72,11 @@ export default function ProductCard({ product }) {
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              {product.brand}
+              {product.brands?.name}
             </p>
 
             <Link
-              to="/shop"
+              to={`/shop/${product.id}`}
               className="mt-1 text-sm truncate block font-semibold story-link text-foreground"
             >
               {product.name}
@@ -81,7 +89,7 @@ export default function ProductCard({ product }) {
             <span className="font-medium text-foreground">
               {product.rating}
             </span>
-            <span>({product.reviews})</span>
+            <span>({product.reviews_count})</span>
           </div>
         </div>
 
@@ -90,9 +98,9 @@ export default function ProductCard({ product }) {
             ${product.price}
           </span>
 
-          {product.oldPrice != null && (
+          {product.old_price != null && (
             <span className="text-sm text-muted-foreground line-through">
-              ${product.oldPrice}
+              ${product.old_price}
             </span>
           )}
         </div>

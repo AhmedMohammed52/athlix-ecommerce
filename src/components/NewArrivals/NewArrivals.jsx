@@ -1,15 +1,36 @@
-import FeaturedProducts from "./FeaturedProducts";
+import { useQuery } from "@tanstack/react-query";
+
+import { getNewArrivals } from "../../services/apiProducts";
+
 import NewArrivalsHeader from "./NewArrivalsHeader";
 import WeeklyPicks from "./WeeklyPicks";
+import FeaturedProducts from "./FeaturedProducts";
 
 export default function NewArrivals() {
+  const {
+    data: products = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["new-arrivals"],
+    queryFn: () => getNewArrivals(12),
+  });
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error.message}</p>;
+  }
+
   return (
-    <section className=" container-athlix pt-10 md:pt-16">
+    <section className="container-athlix pt-10 md:pt-16">
       <NewArrivalsHeader />
 
-      <WeeklyPicks />
+      <WeeklyPicks products={products.slice(0, 4)} />
 
-      <FeaturedProducts />
+      <FeaturedProducts products={products.slice(4, 8)} />
     </section>
   );
 }

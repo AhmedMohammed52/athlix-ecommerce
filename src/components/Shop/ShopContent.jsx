@@ -10,6 +10,7 @@ export default function ShopContent({
   totalPages,
   setCurrentPage,
   currentPage,
+  brands,
 }) {
   return (
     <div className="grid lg:grid-cols-[240px_1fr] gap-10">
@@ -18,6 +19,7 @@ export default function ShopContent({
         handleCategoryClick={handleCategoryClick}
         handleBrandClick={handleBrandClick}
         selectedBrands={selectedBrands}
+        brands={brands}
       />
 
       <ShopGrid

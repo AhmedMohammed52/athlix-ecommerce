@@ -1,11 +1,11 @@
 import sportsData from "../../data/sportsData";
-import brandsData from "../../data/brandsData";
 
 export default function ShopAside({
   selectedCategories,
   handleCategoryClick,
   handleBrandClick,
   selectedBrands,
+  brands,
 }) {
   return (
     <div className=" hidden lg:block">
@@ -40,7 +40,7 @@ export default function ShopAside({
             </p>
 
             <div className=" flex flex-wrap gap-2">
-              {brandsData.map((brand) => (
+              {brands.map((brand) => (
                 <button
                   key={brand.name}
                   onClick={() => handleBrandClick(brand.name)}

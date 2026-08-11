@@ -1,11 +1,10 @@
 import { useState } from "react";
-import trendingProducts from "../data/trendingProductsData";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 
 const PRODUCTS_PER_PAGE = 6;
 
-export default function useShop() {
+export default function useShop(products = []) {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -44,13 +43,14 @@ export default function useShop() {
     setCurrentPage(1);
   };
 
-  const filteredProducts = trendingProducts.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     const categoryMatch =
       selectedCategories.length === 0 ||
-      selectedCategories.includes(product.category);
+      selectedCategories.includes(product.categories?.name);
 
     const brandMatch =
-      selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+      selectedBrands.length === 0 ||
+      selectedBrands.includes(product.brands?.name);
 
     return categoryMatch && brandMatch;
   });
@@ -60,7 +60,7 @@ export default function useShop() {
   switch (sortBy) {
     case "newest":
       sortedProducts.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+        (a, b) => new Date(b.created_at) - new Date(a.created_at),
       );
       break;
 

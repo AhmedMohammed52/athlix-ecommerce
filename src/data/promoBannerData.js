@@ -4,7 +4,7 @@ const promoProducts = [
   {
     id: 1,
     image: sneakerImageOne,
-    alt: "Running Shoe",
+    alt: "Running Shoes",
     path: "/sale",
   },
   {
