@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
 
 const PRODUCTS_PER_PAGE = 6;
 
 export default function useShop(products = []) {
   const [searchParams] = useSearchParams();
+
   const category = searchParams.get("category");
+
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortBy, setSortBy] = useState("featured");
@@ -23,23 +24,27 @@ export default function useShop(products = []) {
     setCurrentPage(1);
   }, [category]);
 
-  const handleCategoryClick = (category) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(
-        selectedCategories.filter((item) => item !== category),
-      );
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
-    }
+  const handleCategoryClick = (categoryName) => {
+    setSelectedCategories((prev) => {
+      if (prev.includes(categoryName)) {
+        return prev.filter((item) => item !== categoryName);
+      }
+
+      return [...prev, categoryName];
+    });
+
     setCurrentPage(1);
   };
 
-  const handleBrandClick = (brand) => {
-    if (selectedBrands.includes(brand)) {
-      setSelectedBrands(selectedBrands.filter((item) => item !== brand));
-    } else {
-      setSelectedBrands([...selectedBrands, brand]);
-    }
+  const handleBrandClick = (brandName) => {
+    setSelectedBrands((prev) => {
+      if (prev.includes(brandName)) {
+        return prev.filter((item) => item !== brandName);
+      }
+
+      return [...prev, brandName];
+    });
+
     setCurrentPage(1);
   };
 
@@ -55,7 +60,7 @@ export default function useShop(products = []) {
     return categoryMatch && brandMatch;
   });
 
-  let sortedProducts = [...filteredProducts];
+  const sortedProducts = [...filteredProducts];
 
   switch (sortBy) {
     case "newest":
@@ -65,25 +70,29 @@ export default function useShop(products = []) {
       break;
 
     case "price-low":
-      sortedProducts.sort((a, b) => a.price - b.price);
+      sortedProducts.sort((a, b) => Number(a.price) - Number(b.price));
       break;
 
     case "price-high":
-      sortedProducts.sort((a, b) => b.price - a.price);
+      sortedProducts.sort((a, b) => Number(b.price) - Number(a.price));
       break;
 
     case "rating":
-      sortedProducts.sort((a, b) => b.rating - a.rating);
+      sortedProducts.sort(
+        (a, b) => Number(b.rating || 0) - Number(a.rating || 0),
+      );
       break;
 
     default:
-      // featured
       break;
   }
 
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+
   const endIndex = startIndex + PRODUCTS_PER_PAGE;
+
   const currentProducts = sortedProducts.slice(startIndex, endIndex);
+
   const totalPages = Math.ceil(sortedProducts.length / PRODUCTS_PER_PAGE);
 
   return {

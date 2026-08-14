@@ -7,6 +7,7 @@ import ProductDescription from "./ProductDescription";
 import ProductSpecs from "./ProductSpecs/ProductSpecs";
 import ProductReviews from "./ProductReviews/ProductReviews";
 import RelatedProducts from "./RelatedProducts/RelatedProducts";
+import Loader from "../ui/Loader";
 
 import { getProductById } from "../../services/apiProducts";
 
@@ -24,7 +25,7 @@ export default function ProductDetails() {
   });
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader fullScreen />;
   }
 
   if (error) {

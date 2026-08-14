@@ -303,3 +303,29 @@
     transform: translateX(100%);
   }
 }
+
+.athlix-loader {
+  --loader-size: clamp(44px, 5vw, 56px);
+
+  display: inline-block;
+  width: var(--loader-size);
+  height: var(--loader-size);
+
+  border-radius: 9999px;
+  background: currentColor;
+
+  animation: athlix-loader-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes athlix-loader-pulse {
+  0%,
+  100% {
+    transform: scale(0.75);
+    opacity: 0.45;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

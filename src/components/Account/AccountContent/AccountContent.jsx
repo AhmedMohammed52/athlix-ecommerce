@@ -16,8 +16,25 @@ const tabs = {
   settings: Settings,
 };
 
-export default function AccountContent({ activeTab }) {
+export default function AccountContent({
+  activeTab,
+  orders,
+  isLoadingOrders,
+  ordersError,
+}) {
   const ActiveComponent = tabs[activeTab] || Orders;
+
+  if (activeTab === "orders") {
+    return (
+      <div className="animate-fade-in">
+        <Orders
+          orders={orders}
+          isLoading={isLoadingOrders}
+          error={ordersError}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="animate-fade-in">

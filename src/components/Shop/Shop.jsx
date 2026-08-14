@@ -4,10 +4,11 @@ import ShopHeader from "./ShopHeader";
 import MobileAside from "./MobileAside";
 import MenuOverlay from "../navbar/MenuOverlay";
 import useShop from "../../hooks/useShop";
+import Loader from "../ui/Loader";
 
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../services/apiProducts";
-import { getBrands } from "../../services/apiBrands"
+import { getBrands } from "../../services/apiBrands";
 
 export default function Shop() {
   const {
@@ -47,8 +48,7 @@ export default function Shop() {
     setIsMobileAsideOpen,
   } = useShop(products);
 
-  if (isLoading || isBrandsLoading) return <p>Loading...</p>;
-
+  if (isLoading || isBrandsLoading) return <Loader fullScreen />;
   if (error) return <p>{error.message}</p>;
 
   if (brandsError) return <p>{brandsError.message}</p>;

@@ -5,6 +5,7 @@ import { getNewArrivals } from "../../services/apiProducts";
 import NewArrivalsHeader from "./NewArrivalsHeader";
 import WeeklyPicks from "./WeeklyPicks";
 import FeaturedProducts from "./FeaturedProducts";
+import Loader from "../ui/Loader";
 
 export default function NewArrivals() {
   const {
@@ -17,7 +18,7 @@ export default function NewArrivals() {
   });
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loader fullScreen />;
   }
 
   if (error) {

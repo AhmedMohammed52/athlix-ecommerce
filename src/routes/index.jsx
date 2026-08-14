@@ -22,6 +22,8 @@ import ForgetPassword from "../pages/ForgetPassword";
 
 import ProtectedRoute from "../routes/ProtectedRoute";
 import GuestRoute from "./GuestRoute";
+import OrderConfirmation from "../pages/OrderConfirmation";
+import OrderDetails from "../pages/OrderDetails";
 
 const router = createBrowserRouter(
   [
@@ -43,6 +45,8 @@ const router = createBrowserRouter(
             { path: "wishlist", element: <Wishlist /> },
             { path: "checkout", element: <Checkout /> },
             { path: "account", element: <Account /> },
+            { path: "account/orders/:orderId", element: <OrderDetails /> },
+            { path: "order-confirmation", element: <OrderConfirmation /> },
           ],
         },
       ],

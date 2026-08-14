@@ -2,15 +2,38 @@ import { supabase } from "../lib/supabase";
 
 const productSelect = `
   *,
+  
   brands (
     id,
     name
   ),
+
+  categories (
+    id,
+    name
+  ),
+
   product_images (
     id,
     image_url,
     is_primary,
     sort_order
+  ),
+
+  product_colors (
+    id,
+    product_id,
+    name,
+    hex_code,
+    created_at
+  ),
+
+  product_sizes (
+    id,
+    product_id,
+    size,
+    stock,
+    created_at
   )
 `;
 
@@ -28,7 +51,39 @@ export async function getProducts() {
 export async function getProductById(id) {
   const { data, error } = await supabase
     .from("products")
-    .select(productSelect)
+    .select(
+      `
+      *,
+      brands (
+        id,
+        name
+      ),
+      categories (
+        id,
+        name
+      ),
+      product_images (
+        id,
+        image_url,
+        is_primary,
+        sort_order
+      ),
+      product_colors (
+        id,
+        product_id,
+        name,
+        hex_code,
+        created_at
+      ),
+      product_sizes (
+        id,
+        product_id,
+        size,
+        stock,
+        created_at
+      )
+    `,
+    )
     .eq("id", id)
     .single();
 

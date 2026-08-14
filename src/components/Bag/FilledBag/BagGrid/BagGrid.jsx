@@ -1,12 +1,12 @@
 import BagItems from "./BagItems";
-import OrderSummary from "./OrderSummary";
+import CartSummary from "./CartSummary";
 
-export default function BagGrid() {
+export default function BagGrid({ cartItems }) {
   return (
     <div className="grid lg:grid-cols-[1.5fr_1fr] mt-10 gap-10">
-      <BagItems />
+      <BagItems cartItems={cartItems} />
 
-      <OrderSummary />
+      <CartSummary />
     </div>
   );
 }
