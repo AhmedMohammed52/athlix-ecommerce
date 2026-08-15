@@ -7,7 +7,7 @@ import { useWishlist } from "../../context/WishlistContext";
 
 import { useCart } from "../../context/CartContext";
 
-export default function NavbarActions({ isSearchOpen, setIsSearchOpen }) {
+export default function NavbarActions({ setIsSearchOpen }) {
   const { wishlistProductIds } = useWishlist();
 
   const wishlistCount = wishlistProductIds.length;
@@ -17,15 +17,13 @@ export default function NavbarActions({ isSearchOpen, setIsSearchOpen }) {
   return (
     <>
       <div className="flex items-center gap-1 ml-auto md:ml-2">
-        {/* Search */}
         <button
           className="size-11 inline-flex items-center justify-center rounded-full text-foreground transition hover:bg-muted"
-          onClick={() => setIsSearchOpen(!isSearchOpen)}
+          onClick={() => setIsSearchOpen((prev) => !prev)}
         >
           <FiSearch className="size-5" />
         </button>
 
-        {/* Wishlist */}
         <Link
           to="/wishlist"
           className="relative hidden size-11 items-center justify-center rounded-full text-foreground transition hover:bg-muted sm:inline-flex"
@@ -39,7 +37,6 @@ export default function NavbarActions({ isSearchOpen, setIsSearchOpen }) {
           )}
         </Link>
 
-        {/* Account */}
         <Link
           to="/account"
           className="relative hidden size-11 items-center justify-center rounded-full text-foreground transition hover:bg-muted sm:inline-flex"
@@ -47,7 +44,6 @@ export default function NavbarActions({ isSearchOpen, setIsSearchOpen }) {
           <FiUser className="size-5" />
         </Link>
 
-        {/* Bag */}
         <Link
           to="/bag"
           className="relative inline-flex size-11 items-center justify-center rounded-full text-foreground transition hover:bg-muted"

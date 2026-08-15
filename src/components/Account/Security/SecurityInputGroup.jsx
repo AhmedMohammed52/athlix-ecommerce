@@ -1,28 +1,37 @@
-import FormInput from "../../ui/FormInput";
+import SecurityPasswordInput from "./SecurityPasswordInput";
 
-export default function SecurityInputGroup() {
+export default function SecurityInputGroup({ register, errors, isSaving }) {
   return (
-    <>
-      <FormInput
-        label="Current password"
+    <div className="grid gap-5">
+      <SecurityPasswordInput
         id="currentPassword"
-        type="password"
-        placeholder="*************"
+        label="Current password"
+        placeholder="Enter your current password"
+        autoComplete="current-password"
+        register={register}
+        error={errors.currentPassword?.message}
+        disabled={isSaving}
       />
 
-      <FormInput
-        label="New password"
+      <SecurityPasswordInput
         id="newPassword"
-        type="password"
-        placeholder="*************"
+        label="New password"
+        placeholder="Enter your new password"
+        autoComplete="new-password"
+        register={register}
+        error={errors.newPassword?.message}
+        disabled={isSaving}
       />
 
-      <FormInput
-        label="Confirm password"
+      <SecurityPasswordInput
         id="confirmPassword"
-        type="password"
-        placeholder="*************"
+        label="Confirm new password"
+        placeholder="Confirm your new password"
+        autoComplete="new-password"
+        register={register}
+        error={errors.confirmPassword?.message}
+        disabled={isSaving}
       />
-    </>
+    </div>
   );
 }

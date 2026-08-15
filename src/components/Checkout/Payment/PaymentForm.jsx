@@ -1,26 +1,30 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { paymentSchema } from "../../../validation/paymentSchema";
+
 export default function PaymentForm({
   paymentData,
   setPaymentData,
   setCurrentStep,
 }) {
-  const handleChange = (e) => {
-    const { id, value } = e.target;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(paymentSchema),
+    defaultValues: paymentData,
+  });
 
-    setPaymentData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const onSubmit = (data) => {
+    setPaymentData(data);
     setCurrentStep(3);
   };
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className="space-y-6 rounded-3xl border border-border p-6 md:p-8"
     >
       <h2 className="font-display text-2xl font-bold">Payment</h2>
@@ -39,12 +43,16 @@ export default function PaymentForm({
             type="text"
             inputMode="numeric"
             autoComplete="cc-number"
-            value={paymentData.cardNumber}
-            onChange={handleChange}
             placeholder="4242 4242 4242 4242"
-            required
+            {...register("cardNumber")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.cardNumber && (
+            <p className="mt-1.5 text-xs text-red-500">
+              {errors.cardNumber.message}
+            </p>
+          )}
         </div>
 
         <div>
@@ -60,12 +68,16 @@ export default function PaymentForm({
             type="text"
             inputMode="numeric"
             autoComplete="cc-exp"
-            value={paymentData.expiry}
-            onChange={handleChange}
             placeholder="MM / YY"
-            required
+            {...register("expiry")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.expiry && (
+            <p className="mt-1.5 text-xs text-red-500">
+              {errors.expiry.message}
+            </p>
+          )}
         </div>
 
         <div>
@@ -78,16 +90,18 @@ export default function PaymentForm({
 
           <input
             id="cvc"
-            type="text"
+            type="password"
             inputMode="numeric"
             autoComplete="cc-csc"
-            value={paymentData.cvc}
-            onChange={handleChange}
-            placeholder="123"
             maxLength={3}
-            required
+            placeholder="123"
+            {...register("cvc")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.cvc && (
+            <p className="mt-1.5 text-xs text-red-500">{errors.cvc.message}</p>
+          )}
         </div>
 
         <div className="sm:col-span-2">
@@ -102,11 +116,15 @@ export default function PaymentForm({
             id="nameOnCard"
             type="text"
             autoComplete="cc-name"
-            value={paymentData.nameOnCard}
-            onChange={handleChange}
-            required
+            {...register("nameOnCard")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.nameOnCard && (
+            <p className="mt-1.5 text-xs text-red-500">
+              {errors.nameOnCard.message}
+            </p>
+          )}
         </div>
       </div>
 

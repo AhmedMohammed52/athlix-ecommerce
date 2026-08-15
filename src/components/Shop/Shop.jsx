@@ -30,8 +30,11 @@ export default function Shop() {
   });
 
   const {
+    searchQuery,
+
     selectedCategories,
     selectedBrands,
+
     sortBy,
     currentPage,
     isMobileAsideOpen,
@@ -43,38 +46,53 @@ export default function Shop() {
     handleCategoryClick,
     handleBrandClick,
 
+    clearSearch,
+    clearCategory,
+    clearBrand,
+    clearAllFilters,
+
     setSortBy,
     setCurrentPage,
     setIsMobileAsideOpen,
   } = useShop(products);
 
-  if (isLoading || isBrandsLoading) return <Loader fullScreen />;
-  if (error) return <p>{error.message}</p>;
+  if (isLoading || isBrandsLoading) {
+    return <Loader fullScreen />;
+  }
 
-  if (brandsError) return <p>{brandsError.message}</p>;
+  if (error) {
+    return <p>{error.message}</p>;
+  }
+
+  if (brandsError) {
+    return <p>{brandsError.message}</p>;
+  }
 
   return (
     <>
-      <section className=" border-b border-border bg-muted/50">
+      <section className="border-b border-border bg-muted/50">
         <ShopHeader
           handleCategoryClick={handleCategoryClick}
-          productsCount={products?.length || 0}
+          productsCount={filteredProducts.length}
         />
       </section>
 
       <ShopFilter
         selectedCategories={selectedCategories}
-        handleCategoryClick={handleCategoryClick}
+        selectedBrands={selectedBrands}
+        searchQuery={searchQuery}
         productsCount={filteredProducts.length}
         sortBy={sortBy}
         setSortBy={setSortBy}
         setCurrentPage={setCurrentPage}
         setIsMobileAsideOpen={setIsMobileAsideOpen}
-        selectedBrands={selectedBrands}
-        handleBrandClick={handleBrandClick}
+        clearSearch={clearSearch}
+        clearCategory={clearCategory}
+        clearBrand={clearBrand}
+        clearAllFilters={clearAllFilters}
       />
 
-      <div className=" container-athlix py-10">
+      <div className="container-athlix py-10">
         <ShopContent
           selectedCategories={selectedCategories}
           handleCategoryClick={handleCategoryClick}
@@ -95,6 +113,7 @@ export default function Shop() {
         selectedCategories={selectedCategories}
         handleBrandClick={handleBrandClick}
         selectedBrands={selectedBrands}
+        brands={brands}
       />
 
       <MenuOverlay

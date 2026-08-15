@@ -1,23 +1,60 @@
 import { LuSlidersHorizontal } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaXmark } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import SortDropdown from "./SortDropdown";
 import sortOptions from "../../data/sortOptions";
 
 export default function ShopFilter({
   selectedCategories,
-  handleCategoryClick,
   productsCount,
   sortBy,
   setSortBy,
   setCurrentPage,
   setIsMobileAsideOpen,
   selectedBrands,
-  handleBrandClick,
+  searchQuery,
+  clearSearch,
+  clearCategory,
+  clearBrand,
 }) {
   const [isSortOpen, setIsSortOpen] = useState(false);
-  const hasFilters = selectedCategories.length > 0 || selectedBrands.length > 0;
+
+  const sortRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sortRef.current && !sortRef.current.contains(event.target)) {
+        setIsSortOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+
+  const searchMatchesCategory = selectedCategories.some(
+    (category) => category.trim().toLowerCase() === normalizedSearch,
+  );
+
+  const searchMatchesBrand = selectedBrands.some(
+    (brand) => brand.trim().toLowerCase() === normalizedSearch,
+  );
+
+  const showSearchFilter =
+    Boolean(searchQuery) && !searchMatchesCategory && !searchMatchesBrand;
+
+  const hasFilters =
+    selectedCategories.length > 0 ||
+    selectedBrands.length > 0 ||
+    showSearchFilter;
+
   const selectedFilters = [
     ...selectedCategories.map((item) => ({
       type: "category",
@@ -28,20 +65,49 @@ export default function ShopFilter({
       type: "brand",
       value: item,
     })),
+
+    ...(showSearchFilter
+      ? [
+          {
+            type: "search",
+            value: searchQuery,
+          },
+        ]
+      : []),
   ];
 
+  const handleRemoveFilter = (filter) => {
+    switch (filter.type) {
+      case "category":
+        clearCategory(filter.value);
+        break;
+
+      case "brand":
+        clearBrand(filter.value);
+        break;
+
+      case "search":
+        clearSearch();
+        break;
+
+      default:
+        break;
+    }
+  };
+
   return (
-    <div className=" sticky top-16 md:top-20 z-30 border-b border-border bg-background/85 backdrop-blur">
-      <div className=" container-athlix py-3 flex items-center gap-3">
+    <div className="sticky top-16 md:top-20 z-30 border-b border-border bg-background/85 backdrop-blur">
+      <div className="container-athlix flex items-center gap-3 py-3">
         <button
+          type="button"
           onClick={() => setIsMobileAsideOpen(true)}
-          className=" inline-flex h-10 items-center gap-2 px-4 border border-border text-sm font-medium rounded-full transition hover:bg-muted lg:hidden"
+          className="inline-flex h-10 items-center gap-2 rounded-full border border-border px-4 text-sm font-medium transition hover:bg-muted lg:hidden"
         >
           <LuSlidersHorizontal className="size-4" />
           Filters
         </button>
 
-        <div className=" hidden lg:flex flex-wrap items-center gap-2">
+        <div className="hidden flex-wrap items-center gap-2 lg:flex">
           {!hasFilters && (
             <span className="text-sm text-muted-foreground">
               {productsCount} results
@@ -51,36 +117,36 @@ export default function ShopFilter({
           {selectedFilters.map((filter) => (
             <button
               key={`${filter.type}-${filter.value}`}
-              className="inline-flex items-center h-8 gap-1.5 bg-foreground rounded-full pl-3 pr-2 text-xs font-medium text-background"
+              type="button"
+              onClick={() => handleRemoveFilter(filter)}
+              className="inline-flex h-8 items-center gap-1.5 rounded-full bg-foreground pl-3 pr-2 text-xs font-medium text-background transition hover:opacity-80"
             >
-              {filter.value}
+              <span>{filter.value}</span>
 
-              <FaXmark
-                className="size-3.5"
-                onClick={() =>
-                  filter.type === "category"
-                    ? handleCategoryClick(filter.value)
-                    : handleBrandClick(filter.value)
-                }
-              />
+              <FaXmark className="size-3.5" />
             </button>
           ))}
         </div>
 
-        <div className="ml-auto flex gap-3 items-center relative">
-          <span className=" hidden sm:inline text-sm text-muted-foreground">
+        <div ref={sortRef} className="relative ml-auto flex items-center gap-3">
+          <span className="hidden text-sm text-muted-foreground sm:inline">
             Sort
           </span>
 
           <button
-            onClick={() => setIsSortOpen(!isSortOpen)}
-            className="flex items-center justify-between whitespace-nowrap px-3 py-2 h-10 w-45 rounded-full text-sm shadow-sm border border-input bg-transparent cursor-pointer ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring"
+            type="button"
+            onClick={() => setIsSortOpen((prev) => !prev)}
+            className="flex h-10 w-45 items-center justify-between whitespace-nowrap rounded-full border border-input bg-transparent px-3 text-sm shadow-sm transition hover:bg-muted"
           >
             <span className="font-medium">
               {sortOptions.find((item) => item.value === sortBy)?.label}
             </span>
 
-            <IoIosArrowDown className="size-4 opacity-50" />
+            <IoIosArrowDown
+              className={`size-4 opacity-50 transition-transform ${
+                isSortOpen ? "rotate-180" : ""
+              }`}
+            />
           </button>
 
           {isSortOpen && (

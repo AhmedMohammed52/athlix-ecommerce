@@ -37,7 +37,7 @@ export default function AccountContent({
   }
 
   return (
-    <div className="animate-fade-in">
+    <div>
       <ActiveComponent />
     </div>
   );

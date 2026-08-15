@@ -1,5 +1,4 @@
 import { HiXMark } from "react-icons/hi2";
-import brandsData from "../../data/brandsData";
 import sportsData from "../../data/sportsData";
 
 export default function MobileAside({
@@ -9,6 +8,7 @@ export default function MobileAside({
   selectedBrands,
   isMobileAsideOpen,
   setIsMobileAsideOpen,
+  brands = [],
 }) {
   return (
     <div className="h-full flex flex-col">
@@ -24,7 +24,7 @@ export default function MobileAside({
           <HiXMark className="size-5" />
         </button>
 
-        <h3 className=" text-xl font-display font-bold mb-6">Filters</h3>
+        <h3 className="text-xl font-display font-bold mb-6">Filters</h3>
 
         <div className="space-y-8">
           <div>
@@ -32,20 +32,20 @@ export default function MobileAside({
               Sport
             </p>
 
-            <div className=" flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2">
               {sportsData.map((sport) => (
                 <button
                   key={sport.name}
+                  type="button"
                   onClick={() => {
                     handleCategoryClick(sport.name);
                     setIsMobileAsideOpen(false);
                   }}
-                  className={`inline-flex items-center justify-center h-9 rounded-full px-4 border text-xs font-medium transition
-          ${
-            selectedCategories.includes(sport.name)
-              ? "bg-foreground text-background border-foreground"
-              : "bg-background text-foreground border-border hover:border-foreground"
-          }`}
+                  className={`inline-flex items-center justify-center h-9 rounded-full px-4 border text-xs font-medium transition ${
+                    selectedCategories.includes(sport.name)
+                      ? "bg-foreground text-background border-foreground"
+                      : "bg-background text-foreground border-border hover:border-foreground"
+                  }`}
                 >
                   {sport.name}
                 </button>
@@ -58,20 +58,24 @@ export default function MobileAside({
               Brand
             </p>
 
-            <div className=" flex flex-wrap gap-2">
-              {brandsData.map((brand) => (
+            <div className="flex flex-wrap gap-2">
+              {brands.map((brand) => (
                 <button
-                  key={brand.name}
+                  key={brand.id || brand.name}
+                  type="button"
                   onClick={() => {
                     handleBrandClick(brand.name);
                     setIsMobileAsideOpen(false);
                   }}
-                  className={`inline-flex items-center justify-center h-9 rounded-full px-4 border text-xs font-medium transition
-                      ${
-                        selectedBrands.includes(brand.name)
-                          ? "bg-foreground text-background border-foreground"
-                          : "bg-background text-foreground border-border hover:border-foreground"
-                      }`}
+                  className={`inline-flex items-center justify-center h-9 rounded-full px-4 border text-xs font-medium transition ${
+                    selectedBrands.some(
+                      (selectedBrand) =>
+                        selectedBrand.toLowerCase() ===
+                        brand.name.toLowerCase(),
+                    )
+                      ? "bg-foreground text-background border-foreground"
+                      : "bg-background text-foreground border-border hover:border-foreground"
+                  }`}
                 >
                   {brand.name}
                 </button>

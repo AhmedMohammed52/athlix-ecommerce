@@ -2,23 +2,27 @@ import FormInput from "../../ui/FormInput";
 
 export default function ProfileForm({ formData, handleChange, isEditing }) {
   return (
-    <div className=" mt-6 grid gap-4 sm:grid-cols-2">
+    <div className="mt-6 grid gap-5 sm:grid-cols-2">
       <FormInput
         label="First name"
-        id="fname"
+        id="firstName"
         name="firstName"
         value={formData.firstName}
         onChange={handleChange}
         readOnly={!isEditing}
+        autoComplete="given-name"
+        placeholder="First name"
       />
 
       <FormInput
         label="Last name"
-        id="lname"
+        id="lastName"
         name="lastName"
         value={formData.lastName}
         onChange={handleChange}
         readOnly={!isEditing}
+        autoComplete="family-name"
+        placeholder="Last name"
       />
 
       <FormInput
@@ -28,6 +32,7 @@ export default function ProfileForm({ formData, handleChange, isEditing }) {
         value={formData.email}
         onChange={handleChange}
         readOnly
+        autoComplete="email"
       />
 
       <FormInput
@@ -36,8 +41,9 @@ export default function ProfileForm({ formData, handleChange, isEditing }) {
         name="phone"
         value={formData.phone}
         onChange={handleChange}
-        placeholder="+20 1234567890"
         readOnly={!isEditing}
+        autoComplete="tel"
+        placeholder="+20 1234567890"
       />
     </div>
   );

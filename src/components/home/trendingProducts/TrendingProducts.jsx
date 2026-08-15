@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getTrendingProducts } from "../../../services/apiProducts";
 
 import ProductSection from "../../ProductSection/ProductSection";
+import Loader from "../../ui/Loader";
 
 export default function TrendingProducts() {
   const {
@@ -10,13 +11,13 @@ export default function TrendingProducts() {
     error,
   } = useQuery({
     queryKey: ["products", "trending"],
-    queryFn: getTrendingProducts,
+    queryFn: () => getTrendingProducts(4),
   });
 
   if (isLoading) {
     return (
       <section className="container-athlix py-16">
-        <p>Loading...</p>
+        <Loader />
       </section>
     );
   }

@@ -1,26 +1,30 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { shippingSchema } from "../../../validation/shippingSchema";
+
 export default function ShippingForm({
   shippingData,
   setShippingData,
   setCurrentStep,
 }) {
-  const handleChange = (e) => {
-    const { id, value } = e.target;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(shippingSchema),
+    defaultValues: shippingData,
+  });
 
-    setShippingData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const onSubmit = (data) => {
+    setShippingData(data);
     setCurrentStep(2);
   };
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
       className="space-y-6 rounded-3xl border border-border p-6 md:p-8"
     >
       <h2 className="font-display text-2xl font-bold">Shipping address</h2>
@@ -37,12 +41,16 @@ export default function ShippingForm({
           <input
             id="email"
             type="email"
-            value={shippingData.email}
-            onChange={handleChange}
             autoComplete="email"
-            required
+            {...register("email")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.email && (
+            <p className="mt-1.5 text-xs text-red-500">
+              {errors.email.message}
+            </p>
+          )}
         </div>
 
         <div>
@@ -56,12 +64,16 @@ export default function ShippingForm({
           <input
             id="phone"
             type="tel"
-            value={shippingData.phone}
-            onChange={handleChange}
             autoComplete="tel"
-            required
+            {...register("phone")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.phone && (
+            <p className="mt-1.5 text-xs text-red-500">
+              {errors.phone.message}
+            </p>
+          )}
         </div>
 
         <div>
@@ -75,12 +87,16 @@ export default function ShippingForm({
           <input
             id="firstName"
             type="text"
-            value={shippingData.firstName}
-            onChange={handleChange}
             autoComplete="given-name"
-            required
+            {...register("firstName")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.firstName && (
+            <p className="mt-1.5 text-xs text-red-500">
+              {errors.firstName.message}
+            </p>
+          )}
         </div>
 
         <div>
@@ -94,12 +110,16 @@ export default function ShippingForm({
           <input
             id="lastName"
             type="text"
-            value={shippingData.lastName}
-            onChange={handleChange}
             autoComplete="family-name"
-            required
+            {...register("lastName")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.lastName && (
+            <p className="mt-1.5 text-xs text-red-500">
+              {errors.lastName.message}
+            </p>
+          )}
         </div>
 
         <div className="sm:col-span-2">
@@ -113,12 +133,16 @@ export default function ShippingForm({
           <input
             id="address"
             type="text"
-            value={shippingData.address}
-            onChange={handleChange}
             autoComplete="street-address"
-            required
+            {...register("address")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.address && (
+            <p className="mt-1.5 text-xs text-red-500">
+              {errors.address.message}
+            </p>
+          )}
         </div>
 
         <div>
@@ -132,12 +156,14 @@ export default function ShippingForm({
           <input
             id="city"
             type="text"
-            value={shippingData.city}
-            onChange={handleChange}
             autoComplete="address-level2"
-            required
+            {...register("city")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.city && (
+            <p className="mt-1.5 text-xs text-red-500">{errors.city.message}</p>
+          )}
         </div>
 
         <div>
@@ -151,12 +177,16 @@ export default function ShippingForm({
           <input
             id="postalCode"
             type="text"
-            value={shippingData.postalCode}
-            onChange={handleChange}
             autoComplete="postal-code"
-            required
+            {...register("postalCode")}
             className="flex h-12 w-full rounded-xl border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring md:text-sm"
           />
+
+          {errors.postalCode && (
+            <p className="mt-1.5 text-xs text-red-500">
+              {errors.postalCode.message}
+            </p>
+          )}
         </div>
       </div>
 
