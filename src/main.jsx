@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App";
 import "./index.css";
 import AuthProvider from "./context/AuthContext";
-import WishlistProvider from "./context/WishlistContext";
+import WishlistProvider from "./context/WishlistContext.jsx";
 import CartProvider from "./context/CartContext";
 
 const queryClient = new QueryClient();
