@@ -12,11 +12,11 @@ const footerLinksData = [
       },
       {
         name: "Sale",
-        path: "/shop?sale=true",
+        path: "/sale",
       },
       {
-        name: "Gift cards",
-        path: "/shop?category=Gift%20Cards",
+        name: "All products",
+        path: "/shop",
       },
     ],
   },

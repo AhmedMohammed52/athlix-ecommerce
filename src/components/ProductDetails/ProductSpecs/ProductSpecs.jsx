@@ -3,19 +3,15 @@ import SpecsCard from "./SpecsCard";
 export default function ProductSpecs({ product }) {
   const specs = [
     {
-      label: "Gender",
-      value: product.gender,
-    },
-    {
       label: "Weight",
       value: product.weight ? `${product.weight} g` : null,
     },
     {
-      label: "Drop Height",
+      label: "Drop",
       value: product.drop_height ? `${product.drop_height} mm` : null,
     },
     {
-      label: "Upper Material",
+      label: "Upper",
       value: product.upper_material,
     },
     {
@@ -23,8 +19,20 @@ export default function ProductSpecs({ product }) {
       value: product.midsole,
     },
     {
-      label: "Stock",
-      value: product.stock,
+      label: "Category",
+      value: product.categories?.name,
+    },
+    {
+      label: "Sport",
+      value: product.sport,
+    },
+    {
+      label: "Brand",
+      value: product.brands?.name,
+    },
+    {
+      label: "Gender",
+      value: product.gender,
     },
   ];
 
@@ -35,9 +43,14 @@ export default function ProductSpecs({ product }) {
           Additional information
         </h2>
 
-        <dl className="grid sm:grid-cols-2 gap-3">
+        <dl className="grid gap-3 sm:grid-cols-2">
           {specs
-            .filter((spec) => spec.value !== null && spec.value !== undefined)
+            .filter(
+              (spec) =>
+                spec.value !== null &&
+                spec.value !== undefined &&
+                spec.value !== "",
+            )
             .map((spec) => (
               <SpecsCard
                 key={spec.label}
