@@ -16,12 +16,12 @@ export default function FooterLinks() {
 
           <ul className="space-y-3">
             {block.links.map((link) => (
-              <li key={link}>
+              <li key={link.name}>
                 <Link
                   className="text-sm text-background/80 transition hover:text-background"
-                  to="/shop"
+                  to={link.path}
                 >
-                  {link}
+                  {link.name}
                 </Link>
               </li>
             ))}

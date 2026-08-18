@@ -1,4 +1,4 @@
-export default function JornalHeader() {
+export default function JournalHeader() {
   return (
     <>
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-royal">

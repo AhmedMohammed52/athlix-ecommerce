@@ -1,7 +1,7 @@
 import { FiClock } from "react-icons/fi";
 import { IoCalendarNumber } from "react-icons/io5";
 
-export default function JornalCard({ data }) {
+export default function JournalCard({ data }) {
   return (
     <article className="group">
       <div className="aspect-4/3 overflow-hidden rounded-2xl bg-muted">

@@ -13,8 +13,8 @@ const navLinks = [
     name: "Sale",
   },
   {
-    path: "/jornal",
-    name: "Jornal",
+    path: "/journal",
+    name: "Journal",
   },
 ];
 

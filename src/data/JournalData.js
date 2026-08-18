@@ -1,6 +1,6 @@
 import { footballImage, basketballImage, trainingImage } from "../assets";
 
-const jornalData = [
+const journalData = [
   {
     id: 1,
     category: "Training",
@@ -35,4 +35,4 @@ const jornalData = [
   },
 ];
 
-export default jornalData;
+export default journalData;

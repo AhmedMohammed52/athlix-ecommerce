@@ -16,7 +16,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import NewArrivals from "../pages/NewArrivals";
 import Sale from "../pages/Sale";
-import Jornal from "../pages/Jornal";
+import Journal from "../pages/Journal";
 import Account from "../pages/Account";
 import ForgetPassword from "../pages/ForgetPassword";
 
@@ -37,7 +37,7 @@ const router = createBrowserRouter(
         { path: "shop/:id", element: <ProductDetails /> },
         { path: "new", element: <NewArrivals /> },
         { path: "sale", element: <Sale /> },
-        { path: "jornal", element: <Jornal /> },
+        { path: "journal", element: <Journal /> },
         {
           element: <ProtectedRoute />,
           children: [
