@@ -25,54 +25,36 @@ export async function createOrder({ shippingData, cartItems }) {
   }, 0);
 
   const shipping = subtotal >= 120 ? 0 : 10;
-
   const total = subtotal + shipping;
 
-  const { data: order, error: orderError } = await supabase
-    .from("orders")
-    .insert({
-      user_id: user.id,
-
-      email: shippingData.email,
-      phone: shippingData.phone,
-      first_name: shippingData.firstName,
-      last_name: shippingData.lastName,
-      address: shippingData.address,
-      city: shippingData.city,
-      postal_code: shippingData.postalCode,
-
-      subtotal,
-      shipping,
-      total,
-
-      status: "pending",
-    })
-    .select()
-    .single();
-
-  if (orderError) {
-    throw orderError;
-  }
-
-  const orderItems = cartItems.map((item) => ({
-    order_id: order.id,
-
+  const items = cartItems.map((item) => ({
     product_id: item.product_id,
     color_id: item.color_id || null,
     size_id: item.size_id || null,
-
     quantity: item.quantity,
-
     price: Number(item.products?.price || 0),
   }));
 
-  const { data: createdItems, error: itemsError } = await supabase
-    .from("order_items")
-    .insert(orderItems)
-    .select();
+  const { data, error } = await supabase.rpc("create_order_with_stock", {
+    p_user_id: user.id,
 
-  if (itemsError) {
-    throw itemsError;
+    p_email: shippingData.email,
+    p_phone: shippingData.phone,
+    p_first_name: shippingData.firstName,
+    p_last_name: shippingData.lastName,
+    p_address: shippingData.address,
+    p_city: shippingData.city,
+    p_postal_code: shippingData.postalCode,
+
+    p_subtotal: subtotal,
+    p_shipping: shipping,
+    p_total: total,
+
+    p_items: items,
+  });
+
+  if (error) {
+    throw error;
   }
 
   const { error: clearCartError } = await supabase
@@ -81,12 +63,12 @@ export async function createOrder({ shippingData, cartItems }) {
     .eq("cart_id", cartItems[0].cart_id);
 
   if (clearCartError) {
-    throw clearCartError;
+    console.error("Cart clearing failed:", clearCartError);
   }
 
   return {
-    order,
-    items: createdItems,
+    order: data.order,
+    items,
     subtotal,
     shipping,
     total,

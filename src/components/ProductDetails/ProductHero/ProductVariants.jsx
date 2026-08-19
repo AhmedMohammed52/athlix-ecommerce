@@ -17,8 +17,10 @@ export default function ProductVariants({
   }, [colors, selectedColorId, onColorChange]);
 
   useEffect(() => {
-    if (!selectedSizeId && sizes.length) {
-      onSizeChange(sizes[0].id);
+    const availableSize = sizes.find((size) => Number(size.stock || 0) > 0);
+
+    if (!selectedSizeId && availableSize) {
+      onSizeChange(availableSize.id);
     }
   }, [sizes, selectedSizeId, onSizeChange]);
 
@@ -65,20 +67,27 @@ export default function ProductVariants({
           <p className="mb-3 text-sm font-semibold">Size</p>
 
           <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
-            {sizes.map((size) => (
-              <button
-                key={size.id}
-                type="button"
-                onClick={() => onSizeChange(size.id)}
-                className={`h-12 rounded-xl border px-4 text-sm font-medium transition-all duration-200 ${
-                  selectedSizeId === size.id
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border bg-background text-foreground hover:-translate-y-0.5 hover:shadow-sm"
-                }`}
-              >
-                {size.size}
-              </button>
-            ))}
+            {sizes.map((size) => {
+              const isOutOfStock = Number(size.stock || 0) <= 0;
+
+              return (
+                <button
+                  key={size.id}
+                  type="button"
+                  disabled={isOutOfStock}
+                  onClick={() => onSizeChange(size.id)}
+                  className={`h-12 rounded-xl border px-4 text-sm font-medium transition-all duration-200 ${
+                    selectedSizeId === size.id
+                      ? "border-foreground bg-foreground text-background"
+                      : isOutOfStock
+                        ? "cursor-not-allowed border-border bg-muted text-muted-foreground opacity-50"
+                        : "border-border bg-background text-foreground hover:-translate-y-0.5 hover:shadow-sm"
+                  }`}
+                >
+                  {size.size}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}

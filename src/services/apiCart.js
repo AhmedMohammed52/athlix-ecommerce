@@ -98,9 +98,17 @@ export async function addToCart({
   sizeId = null,
   quantity = 1,
 }) {
+  if (!productId) {
+    throw new Error("Product is required.");
+  }
+
+  if (quantity < 1) {
+    throw new Error("Quantity must be at least 1.");
+  }
+
   const cart = await getOrCreateCart();
 
-  // Check if the exact variant already exists
+  // Find the exact cart variant
   let query = supabase
     .from("cart_items")
     .select("id, quantity")
@@ -123,14 +131,63 @@ export async function addToCart({
 
   if (findError) throw findError;
 
-  // If already exists → increase quantity
-  if (existingItem) {
-    const newQuantity = existingItem.quantity + quantity;
+  const currentQuantity = existingItem?.quantity || 0;
+  const requestedQuantity = currentQuantity + quantity;
 
+  // If product has a selected size, validate size stock
+  if (sizeId) {
+    const { data: size, error: sizeError } = await supabase
+      .from("product_sizes")
+      .select("id, size, stock")
+      .eq("id", sizeId)
+      .single();
+
+    if (sizeError) throw sizeError;
+
+    const availableStock = Number(size.stock || 0);
+
+    if (availableStock <= 0) {
+      throw new Error(`${size.size} is currently out of stock.`);
+    }
+
+    if (requestedQuantity > availableStock) {
+      throw new Error(
+        `Only ${availableStock} item${
+          availableStock === 1 ? "" : "s"
+        } available for size ${size.size}.`,
+      );
+    }
+  } else {
+    // Product without size
+    const { data: product, error: productError } = await supabase
+      .from("products")
+      .select("id, stock")
+      .eq("id", productId)
+      .single();
+
+    if (productError) throw productError;
+
+    const availableStock = Number(product.stock || 0);
+
+    if (availableStock <= 0) {
+      throw new Error("This product is currently out of stock.");
+    }
+
+    if (requestedQuantity > availableStock) {
+      throw new Error(
+        `Only ${availableStock} item${
+          availableStock === 1 ? "" : "s"
+        } available.`,
+      );
+    }
+  }
+
+  // Existing variant → increase quantity
+  if (existingItem) {
     const { data, error } = await supabase
       .from("cart_items")
       .update({
-        quantity: newQuantity,
+        quantity: requestedQuantity,
       })
       .eq("id", existingItem.id)
       .select(cartSelect)
@@ -141,7 +198,7 @@ export async function addToCart({
     return data;
   }
 
-  // Otherwise create new item
+  // New variant
   const { data, error } = await supabase
     .from("cart_items")
     .insert({
@@ -163,6 +220,61 @@ export async function addToCart({
 export async function updateCartItemQuantity(itemId, quantity) {
   if (quantity <= 0) {
     return removeFromCart(itemId);
+  }
+
+  const { data: item, error: itemError } = await supabase
+    .from("cart_items")
+    .select(
+      `
+      id,
+      product_id,
+      size_id,
+      quantity
+    `,
+    )
+    .eq("id", itemId)
+    .single();
+
+  if (itemError) throw itemError;
+
+  let availableStock;
+
+  if (item.size_id) {
+    const { data: size, error: sizeError } = await supabase
+      .from("product_sizes")
+      .select("size, stock")
+      .eq("id", item.size_id)
+      .single();
+
+    if (sizeError) throw sizeError;
+
+    availableStock = Number(size.stock || 0);
+
+    if (quantity > availableStock) {
+      throw new Error(
+        `Only ${availableStock} item${
+          availableStock === 1 ? "" : "s"
+        } available for size ${size.size}.`,
+      );
+    }
+  } else {
+    const { data: product, error: productError } = await supabase
+      .from("products")
+      .select("stock")
+      .eq("id", item.product_id)
+      .single();
+
+    if (productError) throw productError;
+
+    availableStock = Number(product.stock || 0);
+
+    if (quantity > availableStock) {
+      throw new Error(
+        `Only ${availableStock} item${
+          availableStock === 1 ? "" : "s"
+        } available.`,
+      );
+    }
   }
 
   const { data, error } = await supabase
