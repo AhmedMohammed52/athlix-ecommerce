@@ -54,12 +54,14 @@ export default function SearchBar({ isSearchOpen, setIsSearchOpen }) {
       }
     }
 
-    document.addEventListener("keydown", handleKeyDown);
+    if (isSearchOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    }
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [isSearchOpen]);
 
   function handleClose() {
     setIsSearchOpen(false);
@@ -69,10 +71,10 @@ export default function SearchBar({ isSearchOpen, setIsSearchOpen }) {
 
   return (
     <div
-      className={`overflow-visible border-border/60 transition-all duration-300 ease-out ${
+      className={`relative border-border/60 transition-all duration-300 ease-out ${
         isSearchOpen
-          ? "max-h-125 border-t opacity-100"
-          : "max-h-0 overflow-hidden opacity-0"
+          ? "pointer-events-auto max-h-125 overflow-visible border-t opacity-100"
+          : "pointer-events-none max-h-0 overflow-hidden border-t-0 opacity-0"
       }`}
     >
       <div className="container-athlix relative">
@@ -142,7 +144,7 @@ export default function SearchBar({ isSearchOpen, setIsSearchOpen }) {
                         </div>
 
                         <span className="ml-auto shrink-0 text-sm font-semibold">
-                          ${product.price}
+                          ${Number(product.price).toFixed(2)}
                         </span>
                       </Link>
                     );
