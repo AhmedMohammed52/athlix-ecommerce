@@ -136,16 +136,21 @@
     border-color: var(--color-border);
   }
   html {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    background: var(--color-background);
   }
+
   body {
+    margin: 0;
+    min-width: 320px;
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv11";
   }
+
+  #root {
+    min-height: 100vh;
+    background-color: var(--color-background);
+  }
+
   h1,
   h2,
   h3,
