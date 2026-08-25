@@ -103,6 +103,7 @@ export default function Shop() {
           setCurrentPage={setCurrentPage}
           currentPage={currentPage}
           brands={brands}
+          clearAllFilters={clearAllFilters}
         />
       </div>
 

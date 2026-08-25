@@ -11,9 +11,10 @@ export default function ShopContent({
   setCurrentPage,
   currentPage,
   brands,
+  clearAllFilters,
 }) {
   return (
-    <div className="grid lg:grid-cols-[240px_1fr] gap-10">
+    <div className="grid gap-10 lg:grid-cols-[240px_1fr]">
       <ShopAside
         selectedCategories={selectedCategories}
         handleCategoryClick={handleCategoryClick}
@@ -27,6 +28,7 @@ export default function ShopContent({
         totalPages={totalPages}
         setCurrentPage={setCurrentPage}
         currentPage={currentPage}
+        onClearFilters={clearAllFilters}
       />
     </div>
   );
