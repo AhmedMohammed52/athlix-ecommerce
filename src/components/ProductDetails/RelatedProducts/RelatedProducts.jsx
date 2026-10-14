@@ -29,7 +29,7 @@ export default function RelatedProducts({ product }) {
   }
 
   return (
-    <div className="py-16 border-t border-border">
+    <div className="pt-16 border-t border-border">
       <RelatedProductsHeader scrollPrev={scrollPrev} scrollNext={scrollNext} />
 
       <RelatedProductsSlider emblaRef={emblaRef} products={relatedProducts} />

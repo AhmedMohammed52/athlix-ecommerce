@@ -1,11 +1,14 @@
 import FooterBottom from "./FooterBottom";
-import FooterContent from "./FooterContent";
 
 export default function Footer() {
   return (
-    <footer className="bg-foreground text-background mt-24">
-      <div className=" container-athlix py-16 md:py-24">
-        <FooterContent />
+    <footer className="mt-24 bg-foreground text-background">
+      <div className="container-athlix py-10 sm:py-12 text-center">
+        <h2 className="text-2xl font-bold tracking-[0.2em]">ATHLIX</h2>
+
+        <p className="mt-3 text-sm text-background/65">
+          Push your limits. Define your strength.
+        </p>
 
         <FooterBottom />
       </div>

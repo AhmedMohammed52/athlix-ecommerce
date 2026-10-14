@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getTrendingProducts } from "../../../services/apiProducts";
 
 import ProductSection from "../../ProductSection/ProductSection";
-import Loader from "../../ui/Loader";
 
 export default function TrendingProducts() {
   const {
@@ -14,18 +13,12 @@ export default function TrendingProducts() {
     queryFn: () => getTrendingProducts(4),
   });
 
-  if (isLoading) {
-    return (
-      <section className="container-athlix py-16">
-        <Loader />
-      </section>
-    );
-  }
-
   if (error) {
     return (
       <section className="container-athlix py-16">
-        <p>{error.message}</p>
+        <p className="text-sm text-muted-foreground">
+          Failed to load trending products. {error.message}
+        </p>
       </section>
     );
   }
@@ -38,6 +31,8 @@ export default function TrendingProducts() {
         linkText="Shop Trending"
         buttonLink="/shop"
         products={products}
+        isLoading={isLoading}
+        skeletonCount={4}
       />
     </section>
   );

@@ -33,7 +33,7 @@ export default function Categories() {
         buttonLink="/shop"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
+      <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-4">
         {categories.map((sport) => (
           <CategoryCard data={sport} key={sport.name} isLoading={isLoading} />
         ))}

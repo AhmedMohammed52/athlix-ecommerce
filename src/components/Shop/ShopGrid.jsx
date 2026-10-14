@@ -35,7 +35,7 @@ export default function ShopGrid({
 
   return (
     <div>
-      <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 sm:gap-y-12 xl:grid-cols-3">
         {products.map((item) => (
           <ProductCard product={item} key={item.id} />
         ))}

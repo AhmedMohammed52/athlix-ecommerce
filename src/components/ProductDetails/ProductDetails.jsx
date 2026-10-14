@@ -37,7 +37,7 @@ export default function ProductDetails() {
   }
 
   return (
-    <div className="container-athlix pt-6 pb-16">
+    <div className="container-athlix pt-6">
       <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
         <Link className="hover:text-foreground" to="/">
           Home

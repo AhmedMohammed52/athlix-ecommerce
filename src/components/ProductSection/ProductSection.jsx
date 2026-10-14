@@ -1,12 +1,15 @@
 import SectionHeader from "../ui/SectionHeader";
 import ProductGrid from "../ui/ProductGrid";
+import ProductGridSkeleton from "../ui/ProductGridSkeleton";
 
 export default function ProductSection({
   eyebrow,
   title,
   linkText,
-  products,
+  products = [],
   buttonLink,
+  isLoading = false,
+  skeletonCount = 4,
 }) {
   return (
     <>
@@ -17,7 +20,11 @@ export default function ProductSection({
         buttonLink={buttonLink}
       />
 
-      <ProductGrid products={products} />
+      {isLoading ? (
+        <ProductGridSkeleton count={skeletonCount} />
+      ) : (
+        <ProductGrid products={products} />
+      )}
     </>
   );
 }

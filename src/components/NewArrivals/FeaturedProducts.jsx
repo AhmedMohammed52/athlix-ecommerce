@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import ProductGrid from "./ProductGrid";
+import ProductGrid from "../ui/ProductGrid";
 import { GoArrowRight } from "react-icons/go";
 
 export default function FeaturedProducts({ products }) {

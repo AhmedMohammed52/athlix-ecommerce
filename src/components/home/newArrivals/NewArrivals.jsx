@@ -13,18 +13,12 @@ export default function NewArrivals() {
     queryFn: () => getNewArrivals(4),
   });
 
-  if (isLoading) {
-    return (
-      <section className="container-athlix py-16">
-        <p>Loading...</p>
-      </section>
-    );
-  }
-
   if (error) {
     return (
       <section className="container-athlix py-16">
-        <p>{error.message}</p>
+        <p className="text-sm text-muted-foreground">
+          Failed to load new arrivals. {error.message}
+        </p>
       </section>
     );
   }
@@ -37,6 +31,8 @@ export default function NewArrivals() {
         linkText="See all"
         buttonLink="/shop"
         products={products}
+        isLoading={isLoading}
+        skeletonCount={4}
       />
     </section>
   );

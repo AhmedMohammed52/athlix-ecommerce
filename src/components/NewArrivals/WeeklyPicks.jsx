@@ -1,4 +1,4 @@
-import ProductGrid from "./ProductGrid";
+import ProductGrid from "../ui/ProductGrid";
 
 export default function WeeklyPicks({ products }) {
   return (
